@@ -6,15 +6,12 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 
-
 /**
  * 插件和全局过滤器的设置
  */
 Vue.use(ElementUI)  //注册elementUI插件
 Vue.prototype.$axios = axios  //把axios设置为所有vue组件的实例的成员属性，以后可以使用this.$axios使用异步请求功能
 Vue.config.productionTip = false
-
-
 
 
 /**
@@ -39,7 +36,6 @@ Vue.filter('datetime',(val)=>{
   var dd = date.getDate()
   dd = dd>9 ? dd : '0'+dd
 
-
   var hh = date.getHours()
   hh = hh>9 ? hh : '0'+hh
   var mi = date.getMinutes()
@@ -52,12 +48,16 @@ Vue.filter('currency',(val)=>{
   //把int转换为￥xx.yy
 return '￥'+val.toFixed(2)
 })
-
-
+Vue.filter('tableStatus',(val)=>{
+  if(val==1) return "空闲";
+  else if(val==2) return "预定";
+  else if(val==3) return "占用";
+  else return "其它";
+})
 
 
 new Vue({
   router,
-  store,
-  render: h => h(App)
+  store,//指定当前项目唯一的vuex存储仓库对象，其中保存着可供所有组件共享的数据
+  render: h => h(App)//根据App组件创建<App></App>元素，挂载到#app内部
 }).$mount('#app')
